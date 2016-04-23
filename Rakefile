@@ -30,3 +30,9 @@ task :update_application do
 
   Application.find(id).update_attributes!(atts)
 end
+
+task :clear_votes do
+  id = ENV['ID']
+
+  Vote.where(application_id: id).delete_all
+end
