@@ -45,10 +45,25 @@ class Caesar < Sinatra::Base
                                      name: params[:name])
 
     if @vote.save
-      erb :create_vote
+      redirect vote_path(@application, @vote)
     else
       erb :new_vote
     end
+  end
+
+  get '/applications/:application_id/votes/:vote_id' do
+    find_vote
+
+    erb :show_vote
+  end
+
+  post '/applications/:application_id/votes/:vote_id' do
+    find_vote
+
+    @vote.email = params[:email]
+    @vote.save
+
+    redirect vote_path(@application, @vote)
   end
 
   helpers do
@@ -65,6 +80,19 @@ class Caesar < Sinatra::Base
 
     def votes_no
       @application.votes.no.size
+    end
+
+    def find_vote
+      @application = Application.find(params[:application_id])
+      @vote = @application.votes.find(params[:vote_id])
+    end
+
+    def application_path(application)
+      "/applications/#{application.id}"
+    end
+
+    def vote_path(application, vote)
+      "/applications/#{application.id}/votes/#{vote.id}"
     end
   end
 

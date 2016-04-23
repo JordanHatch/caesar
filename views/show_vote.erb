@@ -1,0 +1,15 @@
+<%= erb :_application_header %>
+
+<p class="lead">Thanks for casting your vote. Here are the results so far.</h1>
+
+<%= erb :_vote_count %>
+
+
+<% unless @vote.email.present? %>
+  <p>Register your email address below and we'll provide it to the council so they can get back to you.</p>
+
+  <form action="/applications/<%= @application.id %>/votes/<%= @vote.id %>" method="POST">
+    <input type="email" name="email" placeholder="e.g. your@email.com">
+    <button>Save my email</button>
+  </form>
+<% end %>

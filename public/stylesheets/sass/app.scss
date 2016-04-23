@@ -42,9 +42,13 @@ h1 {
   padding: 25px 20px 15px;
 }
 
-p {
+p.lead {
   font-size: 23px;
   padding: 20px 20px 10px;
+}
+p {
+  font-size: 17px;
+  padding: 15px 20px 5px;
 }
 
 form {
@@ -54,7 +58,7 @@ form {
     display: block;
     font-weight: bold;
   }
-  input[type=text] {
+  input[type=text], input[type=email] {
     display: block;
     width: 100%;
     padding: 8px 4px;
@@ -106,7 +110,9 @@ ul.errors {
 }
 
 .vote-count {
-  padding: 0 20px;
+  padding: 10px 20px;
+  overflow: auto;
+
   li {
     display: block;
     float: left;
@@ -116,5 +122,9 @@ ul.errors {
     font-size: 28px;
     text-align: center;
     margin-right: 0.5%;
+
+    i {
+      padding-left: 5px;
+    }
   }
 }
