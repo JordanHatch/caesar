@@ -6,6 +6,8 @@ require 'active_record'
 
 require 'sinatra/activerecord'
 
+require 'securerandom'
+
 class Application < ActiveRecord::Base
   has_many :votes
 end
@@ -17,6 +19,13 @@ class Vote < ActiveRecord::Base
 
   scope :yes, -> { where(intent: 'yes') }
   scope :no, -> { where(intent: 'no') }
+
+  before_create :set_secret
+
+private
+  def set_secret
+    self.secret = SecureRandom.hex(32)
+  end
 end
 
 class Caesar < Sinatra::Base
@@ -84,7 +93,7 @@ class Caesar < Sinatra::Base
 
     def find_vote
       @application = Application.find(params[:application_id])
-      @vote = @application.votes.find(params[:vote_id])
+      @vote = @application.votes.where(id: params[:vote_id], secret: params[:secret]).first!
     end
 
     def application_path(application)
@@ -92,7 +101,7 @@ class Caesar < Sinatra::Base
     end
 
     def vote_path(application, vote)
-      "/applications/#{application.id}/votes/#{vote.id}"
+      "/applications/#{application.id}/votes/#{vote.id}?secret=#{vote.secret}"
     end
   end
 

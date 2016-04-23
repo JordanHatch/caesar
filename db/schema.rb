@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160423053755) do
+ActiveRecord::Schema.define(version: 20160423054559) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -27,6 +27,7 @@ ActiveRecord::Schema.define(version: 20160423053755) do
     t.string  "intent",         null: false
     t.string  "name",           null: false
     t.string  "email"
+    t.string  "secret",         null: false
   end
 
   add_index "votes", ["application_id"], name: "index_votes_on_application_id", using: :btree
