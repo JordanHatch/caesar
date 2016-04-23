@@ -14,7 +14,9 @@ end
 class Vote < ActiveRecord::Base
   belongs_to :application
 
-  validates :intent, presence: true, inclusion: { in: ['yes', 'no'] }
+  INTENTS = ['yes', 'no']
+
+  validates :intent, presence: true, inclusion: { in: INTENTS }
   validates :name, :application, presence: true
 
   scope :yes, -> { where(intent: 'yes') }
@@ -32,24 +34,26 @@ class Caesar < Sinatra::Base
   register Sinatra::ActiveRecordExtension
 
   get '/applications/:id' do
-    @application = Application.find(params[:id])
+    find_application
 
     erb :show_application
   end
 
   get '/applications/:id/:intent' do
-    @application = Application.find(params[:id])
+    find_application
+
     @vote = @application.votes.build(intent: params[:intent])
 
-    # if @vote.errors.key?(:intent)
-    #   halt 404
-    # end
+    unless Vote::INTENTS.include?(@vote.intent)
+      halt 404
+    end
 
     erb :new_vote
   end
 
   post '/applications/:id/:intent' do
-    @application = Application.find(params[:id])
+    find_application
+
     @vote = @application.votes.build(intent: params[:intent],
                                      name: params[:name])
 
@@ -89,6 +93,10 @@ class Caesar < Sinatra::Base
 
     def votes_no
       @application.votes.no.size
+    end
+
+    def find_application
+      @application = Application.find(params[:id])
     end
 
     def find_vote
