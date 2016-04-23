@@ -76,7 +76,6 @@ form {
 
   button {
     font-size: 19px;
-    background: #1d3d61;
     color: #fff;
     border: none;
     border-radius: none;
@@ -84,6 +83,11 @@ form {
     width: 100%;
     margin: 20px 0;
     padding: 10px 0;
+
+    background: #1d3d61;
+    &:hover {
+      background: lighten(#1d3d61, 10%);
+    }
 
     &.intent-yes {
       background: #3a8f1a;
