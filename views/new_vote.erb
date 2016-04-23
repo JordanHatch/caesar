@@ -1,0 +1,30 @@
+<%= erb :_application_header %>
+
+<p class="vote-message">
+<% if @vote.intent == 'yes' %>
+  Give a thumbs up to show your support for these changes.
+<% else %>
+  Give a thumbs down to show your opposition to these changes.
+<% end %>
+</p>
+
+<form action="" method="post">
+  <% if @vote.errors.any? %>
+  <ul class="errors">
+    <% @vote.errors.full_messages.each do |message| %>
+      <li><%= message %></li>
+    <% end %>
+  </ul>
+  <% end %>
+
+  <label for="name">
+    Your name
+    <input type="text" name="name" id="name" placeholder="e.g. Jane Citizen">
+    <span class="hint">Please use your real full name if possible.</span>
+  </label>
+
+  <input type="hidden" name="intent" value="<%= @vote.intent %>">
+  <button type="submit" class="intent-<%= @vote.intent %>">
+    Vote <i class="fa <%= icon_class_for_vote(@vote.intent) %>" aria-hidden="true"></i>
+  </button>
+</form>
