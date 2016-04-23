@@ -4,7 +4,6 @@
 
 <%= erb :_vote_count %>
 
-
 <% unless @vote.email.present? %>
   <p>Register your email address below and we'll provide it to the council so they can get back to you.</p>
 
@@ -17,5 +16,8 @@
 <p class="email">
   <i class="fa fa-check" aria-hidden="true"></i> Your email has been registered.
 </p>
+<% end %>
 
+<% if @application.url.present? %>
+  <p><a class="button" href="<%= @application.url %>">Read more about this development application</a></p>
 <% end %>
